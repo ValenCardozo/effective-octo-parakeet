@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import UnicornsView from './UnicornsView';
 import ApiErrorPage from '../ApiErrorPage';
 
-const API_URL = 'https://crudcrud.com/api/d1fbee4fcd734f8180f96f7ac3768b0f/unicorns';
+const API_URL = 'https://crudcrud.com/api/39adb21e1ba74a0f87740298af3764bc/unicorns';
 
 const UnicornsContainer = () => {
     const [unicorns, setUnicorns] = useState([]);
@@ -67,15 +67,19 @@ const UnicornsContainer = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(unicornData),
+                body: JSON.stringify({
+                    name: unicornData.name,
+                    age: unicornData.age,
+                    colour: unicornData.colour,
+                    power: unicornData.power
+                }),
             });
 
             if (!response.ok) {
                 throw new Error(`Error HTTP! estado: ${response.status}`);
             }
 
-            const updatedUnicorn = await response.json();
-            setUnicorns(prev => prev.map(u => u._id === id ? updatedUnicorn : u));
+            await fetchUnicorns();
             return true;
         } catch (err) {
             setError(err.message);
