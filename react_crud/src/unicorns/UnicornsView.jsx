@@ -65,7 +65,7 @@ const UnicornsView = ({
                 <Button
                     icon="pi pi-trash"
                     className="p-button-rounded p-button-danger p-button-sm unicorn-button unicorn-button"
-                    onClick={() => onDelete(rowData.id)}
+                    onClick={() => onDelete(rowData._id)}
                     tooltip="Eliminar"
                     tooltipOptions={{ position: 'top' }}
                 />
