@@ -31,7 +31,8 @@ const UnicornsView = ({
         age: Yup.number()
             .required('La edad es requerida')
             .positive('La edad debe ser positiva')
-            .integer('La edad debe ser un número entero')
+            .integer('La edad debe ser un número entero'),
+        power: Yup.string().required('El color es requerido')
     });
 
     // Manejar el envío del formulario
@@ -57,7 +58,8 @@ const UnicornsView = ({
                         _id: rowData._id,
                         name: rowData.name,
                         colour: rowData.colour,
-                        age: rowData.age
+                        age: rowData.age,
+                        power: rowData.power
                     })}
                     tooltip="Editar"
                     tooltipOptions={{ position: 'top' }}
@@ -115,6 +117,7 @@ const UnicornsView = ({
                     <Column field="name" header="Nombre" sortable />
                     <Column field="age" header="Edad" sortable />
                     <Column field="colour" header="Color" sortable />
+                    <Column field="power" header="Poder" sortable />
                     <Column
                         header="Acciones"
                         body={actionsBodyTemplate}
@@ -135,7 +138,8 @@ const UnicornsView = ({
                         _id: currentUnicorn?._id || '',
                         name: currentUnicorn?.name || '',
                         colour: currentUnicorn?.colour || '',
-                        age: currentUnicorn?.age || ''
+                        age: currentUnicorn?.age || '',
+                        power: currentUnicorn?.power || ''
                     }}
                     validationSchema={unicornSchema}
                     onSubmit={handleFormSubmit}
@@ -179,6 +183,19 @@ const UnicornsView = ({
                                 />
                                 <ErrorMessage name="age" component="small" className="p-error unicorns-error-message" />
                             </div>
+
+                            <div className="field">
+                                <label htmlFor="power">Poder</label>
+                                <Field
+                                    as={InputText}
+                                    id="power"
+                                    name="power"
+                                    placeholder="Poder del unicornio"
+                                    className='unicorns-form-input'
+                                />
+                                <ErrorMessage name="power" component="small" className="p-error unicorns-error-message" />
+                            </div>
+
 
                             <div className="flex justify-content-end gap-2 mt-4">
                                 <Button

@@ -41,7 +41,8 @@ const UnicornsContainer = () => {
                 body: JSON.stringify({
                     name: unicornData.name,
                     age: unicornData.age,
-                    colour: unicornData.colour
+                    colour: unicornData.colour,
+                    power: unicornData.power
                 }),
             });
 
