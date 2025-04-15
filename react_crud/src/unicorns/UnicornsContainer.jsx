@@ -1,28 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import UnicornsView from './UnicornsView';
 import ApiErrorPage from '../ApiErrorPage';
+import { UnicornContext } from '../context/UnicornContext';
 
-const API_URL = 'https://crudcrud.com/api/39adb21e1ba74a0f87740298af3764bc/unicorns';
+const API_URL = 'https://crudcrud.com/api/584d28c9e7824001a9f37634bd81f630/unicorns';
 
 const UnicornsContainer = () => {
-    const [unicorns, setUnicorns] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [currentUnicorn, setCurrentUnicorn] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
+    const {unicorns, getUnicorns} = useContext(UnicornContext)
 
     // Obtener todos los unicornios
     const fetchUnicorns = async () => {
         try {
             setLoading(true);
-            const response = await fetch(API_URL);
-
-            if (!response.ok) {
-                throw new Error(`Error HTTP! estado: ${response.status}`);
-            }
-
-            const data = await response.json();
-            setUnicorns(data);
+            getUnicorns()
             setLoading(false);
         } catch (err) {
             setError(err.message);
@@ -51,7 +45,7 @@ const UnicornsContainer = () => {
             }
 
             const newUnicorn = await response.json();
-            setUnicorns(prev => [...prev, newUnicorn]);
+            UnicornContext.setUnicorns(prev => [...prev, newUnicorn]);
             return true;
         } catch (err) {
             setError(err.message);
@@ -98,7 +92,7 @@ const UnicornsContainer = () => {
                 throw new Error(`Error HTTP! estado: ${response.status}`);
             }
 
-            setUnicorns(prev => prev.filter(u => u._id !== id));
+            UnicornContext.setUnicorns(prev => prev.filter(u => u._id !== id));
             return true;
         } catch (err) {
             setError(err.message);

@@ -32,7 +32,7 @@ const UnicornsView = ({
             .required('La edad es requerida')
             .positive('La edad debe ser positiva')
             .integer('La edad debe ser un número entero'),
-        power: Yup.string().required('El color es requerido')
+        power: Yup.string().required('El poder es requerido')
     });
 
     // Manejar el envío del formulario

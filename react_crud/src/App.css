@@ -1,10 +1,15 @@
+/* Estilos generales */
 #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  font-family: 'Roboto', sans-serif;
+  color: #4a4a4a;
+  background-color: #f8fafc;
 }
 
+/* Estilos del logo */
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -13,13 +18,15 @@
 }
 
 .logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+  filter: drop-shadow(0 0 2em #4a90e2aa);
+  /* Azul suave */
 }
 
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
+/* Animación del logo */
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);
@@ -36,35 +43,131 @@
   }
 }
 
+/* Tarjetas */
 .card {
   padding: 2em;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin: 1.5rem 0;
+  border: 1px solid #e2e8f0;
 }
 
+/* Texto secundario */
 .read-the-docs {
-  color: #888;
+  color: #64748b;
 }
 
+/* Contenedor de edición */
 .edit-container {
   margin: 20px;
   padding: 20px;
-  border: 1px solid #ddd;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e2e8f0;
 }
 
+/* Tabla de productos */
 .products-table {
   width: 100%;
   border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.9rem;
 }
 
-.products-table th,
-.products-table td {
-  border: 1px solid #ddd;
-  padding: 8px;
+.products-table th {
+  background-color: #f1f5f9;
+  color: #334155;
+  font-weight: 500;
+  padding: 12px;
   text-align: left;
+  border-bottom: 1px solid #e2e8f0;
 }
 
+.products-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
+  color: #475569;
+}
 
+.products-table tr:hover {
+  background-color: #f8fafc;
+}
+
+/* Botones */
 button {
   margin: 0 5px;
-  padding: 5px 10px;
+  padding: 8px 16px;
   cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  border-radius: 6px;
+  border: none;
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.9rem;
+}
+
+button.primary {
+  background-color: #3b82f6;
+  color: white;
+}
+
+button.primary:hover {
+  background-color: #2563eb;
+}
+
+button.secondary {
+  color: #3b82f6;
+  background-color: transparent;
+  border: 1px solid #cbd5e1;
+}
+
+button.secondary:hover {
+  background-color: #f1f5f9;
+}
+
+button.danger {
+  background-color: #ef4444;
+  color: white;
+}
+
+button.danger:hover {
+  background-color: #dc2626;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+  #root {
+    padding: 1rem;
+  }
+
+  .card,
+  .edit-container {
+    padding: 1.5rem;
+  }
+
+  .products-table {
+    display: block;
+    overflow-x: auto;
+  }
+}
+
+/* Estilos adicionales para mejor legibilidad */
+h1,
+h2,
+h3,
+h4 {
+  color: #1e293b;
+  font-weight: 500;
+}
+
+a {
+  color: #3b82f6;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
 }
