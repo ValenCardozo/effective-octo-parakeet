@@ -2,15 +2,15 @@ import React from 'react';
 import { Button } from 'primereact/button';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { InputText } from 'primereact/inputtext';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { Message } from 'primereact/message';
 import { Dialog } from 'primereact/dialog';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { Link } from 'react-router-dom';
+import { Tag } from 'primereact/tag';
+import { Avatar } from 'primereact/avatar';
 import 'primeicons/primeicons.css';
-import * as Yup from 'yup';
 import './UnicornsView.css';
+import UnicornForm from './UnicornForm';
 
 const UnicornsView = ({
     unicorns,
@@ -21,30 +21,93 @@ const UnicornsView = ({
     onEdit,
     onCancel,
     onCreate,
-    onUpdate,
+    onUpdate, // Esta prop debería ser editUnicorn, pero mantenemos el nombre para no cambiar la interfaz
     onDelete
 }) => {
-    // Esquema de validación con Yup
-    const unicornSchema = Yup.object().shape({
-        name: Yup.string().required('El nombre es requerido'),
-        colour: Yup.string().required('El color es requerido'),
-        age: Yup.number()
-            .required('La edad es requerida')
-            .positive('La edad debe ser positiva')
-            .integer('La edad debe ser un número entero'),
-        power: Yup.string().required('El poder es requerido')
-    });
-
-    // Manejar el envío del formulario
-    const handleFormSubmit = (values, { setSubmitting }) => {
-        const operation = isEditing && currentUnicorn
-            ? onUpdate(currentUnicorn._id, values)
+    // Determinar qué función utilizar para el envío del formulario
+    const handleFormSubmit = (values) => {
+        const operation = currentUnicorn?._id
+            ? onUpdate(currentUnicorn._id, values) // Usar editUnicorn aquí
             : onCreate(values);
+        
+        return operation;
+    };
 
-        operation.then(() => {
-            setSubmitting(false);
-            onCancel();
-        });
+    // Generar color pastel basado en el nombre del unicornio
+    const generatePastelColor = (name) => {
+        let hash = 0;
+        for (let i = 0; i < name.length; i++) {
+            hash = name.charCodeAt(i) + ((hash << 5) - hash);
+        }
+        // Generar valores RGB en el rango pastel (200-240)
+        const r = ((hash & 0xFF) % 40) + 200;
+        const g = (((hash >> 8) & 0xFF) % 40) + 200;
+        const b = (((hash >> 16) & 0xFF) % 40) + 200;
+        
+        return `rgb(${r}, ${g}, ${b})`;
+    };
+
+    // Template para mostrar el nombre con un avatar
+    const nameTemplate = (rowData) => {
+        const bgColor = generatePastelColor(rowData.name);
+        
+        return (
+            <div className="flex align-items-center gap-2">
+                <Avatar
+                    label={rowData.name.charAt(0).toUpperCase()}
+                    shape="circle"
+                    size="large"
+                    style={{ backgroundColor: bgColor, color: '#1e293b' }}
+                />
+                <span className="font-semibold">{rowData.name}</span>
+            </div>
+        );
+    };
+
+    // Template para mostrar el color
+    const colorTemplate = (rowData) => {
+        return (
+            <div className="flex align-items-center">
+                <div 
+                    className="border-circle mr-2" 
+                    style={{ 
+                        width: '1.5rem', 
+                        height: '1.5rem', 
+                        background: rowData.colour.toLowerCase(),
+                        border: '2px solid #e2e8f0',
+                        borderRadius: '50%',
+                        display: 'inline-block'
+                    }}
+                ></div>
+                {rowData.colour}
+            </div>
+        );
+    };
+
+    // Template para mostrar el poder como una etiqueta
+    const powerTemplate = (rowData) => {
+        return (
+            <Tag 
+                value={rowData.power} 
+                severity="info" 
+                className="unicorn-power"
+            />
+        );
+    };
+
+    // Template para la edad con pequeña descripción
+    const ageTemplate = (rowData) => {
+        let ageText = "Joven";
+        if (rowData.age > 100) ageText = "Adulto";
+        if (rowData.age > 500) ageText = "Antiguo";
+        
+        return (
+            <div>
+                <span className="font-medium">{rowData.age}</span>
+                <br />
+                <small className="text-color-secondary">{ageText}</small>
+            </div>
+        );
     };
 
     // Acciones para la tabla
@@ -66,7 +129,7 @@ const UnicornsView = ({
                 />
                 <Button
                     icon="pi pi-trash"
-                    className="p-button-rounded p-button-danger p-button-sm unicorn-button unicorn-button"
+                    className="p-button-rounded p-button-danger p-button-sm unicorn-button"
                     onClick={() => onDelete(rowData._id)}
                     tooltip="Eliminar"
                     tooltipOptions={{ position: 'top' }}
@@ -86,24 +149,38 @@ const UnicornsView = ({
     if (error) {
         return (
             <div className="p-4">
-                <Message severity="error" text={error} />
+                <div className="alert alert-error">
+                    <i className="pi pi-exclamation-triangle" style={{ fontSize: '1.5rem' }}></i>
+                    <div>
+                        <h3>Error</h3>
+                        <p>{error}</p>
+                    </div>
+                </div>
             </div>
         );
     }
 
+    // Footer de la tabla que muestra el total de unicornios
+    const footer = `Total de ${unicorns.length} unicornio${unicorns.length !== 1 ? 's' : ''} registrado${unicorns.length !== 1 ? 's' : ''}.`;
+
     return (
-        <div className="p-4">
-            <div className="flex justify-content-between align-items-center mb-4">
+        <div className="p-4 unicorns-view">
+            <div className="page-header">
                 <h1 className='unicorns-title'>Gestor de Unicornios</h1>
-                <Button
-                    label="Crear Nuevo Unicornio"
-                    icon="pi pi-plus"
-                    className="p-button-primary unicorn-button"
-                    onClick={() => onEdit(null)}
-                />
-                <Link to="/">
-                    <Button className='unicorn-button'>Volver al inicio</Button>
-                </Link>
+                <div className="action-buttons">
+                    <Button
+                        label="Crear Nuevo Unicornio"
+                        icon="pi pi-plus"
+                        className="p-button-primary unicorn-button"
+                        onClick={() => onEdit(null)}
+                    />
+                    <Link to="/">
+                        <Button className='unicorn-button p-button-secondary'>
+                            <i className="pi pi-home mr-2"></i>
+                            Volver al inicio
+                        </Button>
+                    </Link>
+                </div>
             </div>
 
             <div className="card unicorns-card">
@@ -113,108 +190,40 @@ const UnicornsView = ({
                     loading={loading}
                     tableStyle={{ minWidth: '50rem' }}
                     className='unicorns-table'
+                    footer={footer}
+                    paginator 
+                    rows={5}
+                    rowsPerPageOptions={[5, 10, 25]}
+                    sortField="name"
+                    sortOrder={1}
+                    stripedRows
                 >
-                    <Column field="name" header="Nombre" sortable />
-                    <Column field="age" header="Edad" sortable />
-                    <Column field="colour" header="Color" sortable />
-                    <Column field="power" header="Poder" sortable />
+                    <Column field="name" header="Nombre" body={nameTemplate} sortable />
+                    <Column field="age" header="Edad" body={ageTemplate} sortable />
+                    <Column field="colour" header="Color" body={colorTemplate} sortable />
+                    <Column field="power" header="Poder" body={powerTemplate} sortable />
                     <Column
                         header="Acciones"
                         body={actionsBodyTemplate}
+                        style={{ width: '10rem', textAlign: 'center' }}
                     />
                 </DataTable>
             </div>
 
             <Dialog
-                header={isEditing ? 'Editar Unicornio' : 'Crear Unicornio'}
+                header={currentUnicorn ? 'Editar Unicornio' : 'Crear Unicornio'}
                 visible={isEditing}
-                style={{ width: '50vw' }}
+                style={{ width: '50vw', borderRadius: '12px', overflow: 'hidden' }}
                 onHide={onCancel}
                 modal
                 className='unicorns-dialog'
+                dismissableMask
             >
-                <Formik
-                    initialValues={{
-                        _id: currentUnicorn?._id || '',
-                        name: currentUnicorn?.name || '',
-                        colour: currentUnicorn?.colour || '',
-                        age: currentUnicorn?.age || '',
-                        power: currentUnicorn?.power || ''
-                    }}
-                    validationSchema={unicornSchema}
+                <UnicornForm 
+                    currentUnicorn={currentUnicorn}
                     onSubmit={handleFormSubmit}
-                    enableReinitialize
-                >
-                    {({ isSubmitting }) => (
-                        <Form className="p-fluid unicorns-form-label">
-                            <div className="field">
-                                <label htmlFor="name">Nombre</label>
-                                <Field
-                                    as={InputText}
-                                    id="name"
-                                    name="name"
-                                    placeholder="Nombre del unicornio"
-                                    className='unicorns-form-input'
-                                />
-                                <ErrorMessage name="name" component="small" className="p-error unicorns-error-message" />
-                            </div>
-
-                            <div className="field">
-                                <label htmlFor="colour">Color</label>
-                                <Field
-                                    as={InputText}
-                                    id="colour"
-                                    name="colour"
-                                    placeholder="Color del unicornio"
-                                    className='unicorns-form-input'
-                                />
-                                <ErrorMessage name="colour" component="small" className="p-error unicorns-error-message" />
-                            </div>
-
-                            <div className="field">
-                                <label htmlFor="age">Edad</label>
-                                <Field
-                                    as={InputText}
-                                    id="age"
-                                    name="age"
-                                    placeholder="Edad del unicornio"
-                                    keyfilter="int"
-                                    className='unicorns-form-input'
-                                />
-                                <ErrorMessage name="age" component="small" className="p-error unicorns-error-message" />
-                            </div>
-
-                            <div className="field">
-                                <label htmlFor="power">Poder</label>
-                                <Field
-                                    as={InputText}
-                                    id="power"
-                                    name="power"
-                                    placeholder="Poder del unicornio"
-                                    className='unicorns-form-input'
-                                />
-                                <ErrorMessage name="power" component="small" className="p-error unicorns-error-message" />
-                            </div>
-
-
-                            <div className="flex justify-content-end gap-2 mt-4">
-                                <Button
-                                    label="Cancelar"
-                                    icon="pi pi-times"
-                                    className="p-button-secondary unicorn-button"
-                                    onClick={onCancel}
-                                />
-                                <Button
-                                    type="submit"
-                                    label={isEditing ? 'Actualizar' : 'Crear'}
-                                    icon="pi pi-check"
-                                    className="p-button-primary unicorn-button"
-                                    loading={isSubmitting}
-                                />
-                            </div>
-                        </Form>
-                    )}
-                </Formik>
+                    onCancel={onCancel}
+                />
             </Dialog>
         </div>
     );

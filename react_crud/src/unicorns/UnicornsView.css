@@ -1,34 +1,53 @@
 /* Estilos generales */
 .unicorns-view {
-    font-family: 'Roboto', sans-serif;
-    color: #4a4a4a;
-    background-color: #f8fafc;
+    font-family: 'Inter', 'Roboto', system-ui, sans-serif;
+    color: var(--text-color);
+    background-color: var(--secondary-color);
     min-height: 100vh;
     padding: 2rem;
 }
 
 /* Contenedor principal */
 .unicorns-container {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
 }
 
 /* Título */
 .unicorns-title {
     color: #1e293b;
-    font-weight: 500;
+    font-weight: 600;
     margin: 0;
     font-size: 2rem;
+    position: relative;
+    display: inline-block;
+}
+
+.unicorns-title::after {
+    content: '';
+    position: absolute;
+    width: 50%;
+    height: 4px;
+    background: var(--primary-color);
+    bottom: -8px;
+    left: 0;
+    border-radius: 2px;
 }
 
 /* Tarjeta contenedora de la tabla */
 .unicorns-card {
-    background: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    background: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
     padding: 1.5rem;
     margin-top: 1.5rem;
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--border-color);
+    transition: var(--transition);
+    overflow: hidden;
+}
+
+.unicorns-card:hover {
+    box-shadow: var(--shadow-hover);
 }
 
 /* Tabla */
@@ -36,94 +55,134 @@
     width: 100%;
 }
 
-.unicorns-table .p-datatable-thead>tr>th {
-    background-color: #f1f5f9;
-    color: #334155;
-    font-weight: 500;
-    border-bottom: 1px solid #e2e8f0;
+.unicorns-table .p-datatable-thead > tr > th {
+    background-color: var(--header-bg);
+    color: var(--text-color);
+    font-weight: 600;
+    border-bottom: 1px solid var(--border-color);
+    padding: 1rem;
 }
 
-.unicorns-table .p-datatable-tbody>tr {
+.unicorns-table .p-datatable-tbody > tr {
     transition: background-color 0.2s;
+    border-bottom: 1px solid var(--border-color);
 }
 
-.unicorns-table .p-datatable-tbody>tr:hover {
-    background-color: #f8fafc !important;
+.unicorns-table .p-datatable-tbody > tr:hover {
+    background-color: rgba(99, 102, 241, 0.05) !important;
+}
+
+.unicorns-table .p-datatable-tbody > tr > td {
+    padding: 1rem;
 }
 
 /* Botones */
 .unicorn-button {
     font-weight: 500;
     transition: all 0.2s ease;
-    border-radius: 6px !important;
-    font-family: 'Roboto', sans-serif;
+    border-radius: 8px !important;
+    font-family: 'Inter', 'Roboto', system-ui, sans-serif;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .unicorn-button.p-button-primary {
-    background-color: #3b82f6;
-    border-color: #3b82f6;
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
 }
 
 .unicorn-button.p-button-primary:hover {
-    background-color: #2563eb;
-    border-color: #2563eb;
+    background-color: var(--primary-hover);
+    border-color: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(99, 102, 241, 0.2);
 }
 
 .unicorn-button.p-button-success {
-    background-color: #10b981;
-    border-color: #10b981;
+    background-color: var(--success-color);
+    border-color: var(--success-color);
+}
+
+.unicorn-button.p-button-success:hover {
+    background-color: var(--success-hover);
+    border-color: var(--success-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(16, 185, 129, 0.2);
 }
 
 .unicorn-button.p-button-danger {
-    background-color: #ef4444;
-    border-color: #ef4444;
+    background-color: var(--danger-color);
+    border-color: var(--danger-color);
+}
+
+.unicorn-button.p-button-danger:hover {
+    background-color: var(--danger-hover);
+    border-color: var(--danger-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(239, 68, 68, 0.2);
 }
 
 /* Spinner de carga */
 .unicorns-spinner .p-progress-spinner-circle {
-    stroke: #3b82f6;
+    stroke: var(--primary-color);
+    stroke-width: 4px;
 }
 
 /* Diálogo de formulario */
 .unicorns-dialog .p-dialog-header {
-    background-color: #3b82f6;
+    background-color: var(--primary-color);
     color: white;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    padding: 1.5rem;
+}
+
+.unicorns-dialog .p-dialog-title {
+    font-weight: 600;
+    font-size: 1.25rem;
 }
 
 .unicorns-dialog .p-dialog-content {
-    padding: 1.5rem;
-    background-color: #f8fafc;
+    padding: 2rem;
+    background-color: var(--secondary-color);
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
 }
 
 /* Formulario */
 .unicorns-form-label label {
     font-weight: 500;
-    color: #475569;
+    color: var(--text-color);
     margin-bottom: 0.5rem;
     display: block;
+    font-size: 0.95rem;
 }
 
 .unicorns-form-input {
     width: 100%;
-    border-radius: 6px !important;
-    border: 1px solid #cbd5e1 !important;
+    border-radius: 8px !important;
+    border: 1px solid var(--border-color) !important;
     padding: 0.75rem 1rem !important;
-    transition: border-color 0.2s;
+    transition: all 0.2s ease;
     background-color: #ffffff;
+    font-size: 1rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .unicorns-form-input:focus {
-    border-color: #3b82f6 !important;
-    box-shadow: 0 0 0 0.1rem rgba(59, 130, 246, 0.2) !important;
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15) !important;
 }
 
 /* Mensajes de error */
 .unicorns-error-message {
-    color: #ef4444;
+    color: var(--danger-color);
     font-size: 0.875rem;
     margin-top: 0.25rem;
+    display: block;
 }
 
 /* Diseño responsivo */
@@ -137,18 +196,52 @@
     }
 
     .unicorns-dialog {
-        width: 90vw !important;
+        width: 95vw !important;
+    }
+    
+    .unicorns-dialog .p-dialog-content {
+        padding: 1.25rem;
     }
 }
 
 /* Efectos de hover para botones de acciones */
-.unicorn-button.p-button-success:hover {
-    background-color: #0d9b6c;
-    border-color: #0d9b6c;
-    transform: translateY(-1px);
+.unicorn-button.p-button-rounded:hover {
+    transform: translateY(-2px) scale(1.05);
 }
 
-.unicorn-button.p-button-danger:hover {
-    background-color: #dc2626;
-    border-color: #dc2626;
-    transform: translateY(-1px
+/* Animaciones */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.unicorns-table .p-datatable-tbody > tr {
+    animation: fadeIn 0.3s ease-out;
+    animation-fill-mode: both;
+}
+
+.unicorns-table .p-datatable-tbody > tr:nth-child(1) { animation-delay: 0.05s; }
+.unicorns-table .p-datatable-tbody > tr:nth-child(2) { animation-delay: 0.1s; }
+.unicorns-table .p-datatable-tbody > tr:nth-child(3) { animation-delay: 0.15s; }
+.unicorns-table .p-datatable-tbody > tr:nth-child(4) { animation-delay: 0.2s; }
+.unicorns-table .p-datatable-tbody > tr:nth-child(5) { animation-delay: 0.25s; }
+
+/* Estilo para representar propiedades especiales */
+.unicorn-power {
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    background-color: rgba(99, 102, 241, 0.1);
+    color: var(--primary-color);
+    display: inline-block;
+}
+
+/* Efecto glass para algunos elementos como badges o tarjetas especiales */
+.glass-effect {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+}

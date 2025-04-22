@@ -1,24 +1,25 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import UnicornsIndex from './unicorns';
+import ProductsIndex from './products';
 import Home from './Home';
 import './App.css';
-import {UnicornProvider} from './context/UnicornContext';
 
 const App = () => {
   return (
-    <UnicornProvider>
     <Routes>
-      {/* Ruta para la lista completa de unicornios */}
-      <Route path="/unicorns" element={<UnicornsIndex />} />
-
-      {/* Ruta para detalles de un unicornio específico */}
-      <Route path="/unicorns/:id" element={<UnicornsIndex />} />
-
-      {/* Ruta de inicio */}
+      {/* Unicorn routes - UnicornProvider se aplica dentro del componente UnicornsIndex */}
+      <Route path="/unicorns/*" element={<UnicornsIndex />} />
+      
+      {/* Product routes */}
+      <Route path="/products/*" element={<ProductsIndex />} />
+      
+      {/* Home route */}
       <Route path="/" element={<Home />} />
+      
+      {/* Redirect other routes to home */}
+      <Route path="*" element={<Navigate to="/" />} />
     </Routes>
-    </UnicornProvider>
   );
 };
 
