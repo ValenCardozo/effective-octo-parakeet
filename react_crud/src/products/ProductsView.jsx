@@ -72,36 +72,35 @@ const ProductsView = ({ products, loading, error, onEdit, onDelete }) => {
         return (
             <div className="flex align-items-center">
                 <Badge 
-                    value={rowData.stock} 
-                    severity={severity} 
-                    size="large"
+                    value={rowData.stock}
+                    severity={severity}
+                    size="small"
                 />
-                <span className="ml-2">unidades</span>
             </div>
         );
     };
 
     const categoryBodyTemplate = (rowData) => {
         const categoryColors = {
-            'electronics': 'info',
-            'home': 'success',
-            'clothing': 'warning',
-            'food': 'danger',
-            'books': 'primary'
+            'pociones': 'success',
+            'armas': 'danger',
+            'accesorios': 'warning',
+            'contenedores': 'info',
+            'vestimenta': 'primary'
         };
 
         const categoryLabels = {
-            'electronics': 'Electrónica',
-            'home': 'Hogar',
-            'clothing': 'Ropa',
-            'food': 'Alimentos',
-            'books': 'Libros'
+            'pociones': 'Pociones',
+            'armas': 'Armas',
+            'accesorios': 'Accesorios',
+            'contenedores': 'Contenedores',
+            'vestimenta': 'Vestimenta'
         };
 
         return (
-            <Tag 
-                value={categoryLabels[rowData.category] || rowData.category} 
-                severity={categoryColors[rowData.category] || 'info'} 
+            <Tag
+                value={categoryLabels[rowData.category] || rowData.category}
+                severity={categoryColors[rowData.category] || 'info'}
             />
         );
     };
@@ -114,7 +113,6 @@ const ProductsView = ({ products, loading, error, onEdit, onDelete }) => {
         );
     };
 
-    // Footer de la tabla que muestra el total de productos
     const footer = `Total de ${products.length} producto${products.length !== 1 ? 's' : ''} registrado${products.length !== 1 ? 's' : ''}.`;
 
     return (
@@ -169,6 +167,9 @@ const ProductsView = ({ products, loading, error, onEdit, onDelete }) => {
 
             <div className="card" style={{
                 borderRadius: '12px',
+                width: '75%',
+                position: 'center',
+                margin: '2% auto',
                 boxShadow: 'var(--shadow)',
                 transition: 'var(--transition)',
                 overflow: 'hidden',

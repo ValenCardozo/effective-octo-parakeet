@@ -22,11 +22,11 @@ const ProductForm = ({ onSave, getProduct }) => {
     const [loading, setLoading] = useState(false);
 
     const categories = [
-        { label: 'Electrónica', value: 'electronics' },
-        { label: 'Hogar', value: 'home' },
-        { label: 'Ropa', value: 'clothing' },
-        { label: 'Alimentos', value: 'food' },
-        { label: 'Libros', value: 'books' },
+        { label: 'Pociones', value: 'pociones' },
+        { label: 'Armas', value: 'armas' },
+        { label: 'Accesorios', value: 'accesorios' },
+        { label: 'Contenedores', value: 'contenedores' },
+        { label: 'Vestimenta', value: 'vestimenta' }
     ];
 
     const productSchema = Yup.object().shape({
@@ -87,7 +87,16 @@ const ProductForm = ({ onSave, getProduct }) => {
     );
 
     return (
-        <div className="p-fluid p-formgrid p-grid p-4">
+        <div className="p-fluid p-formgrid p-grid p-4"
+            style={{
+                maxWidth: '600px',
+                margin: '0 auto',
+                padding: '2rem',
+                backgroundColor: '#f9f9f9',
+                borderRadius: '8px',
+                boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
+            }}
+        >
             <Card className="shadow-4 border-round-xl" header={headerContent}>
                 <Formik
                     initialValues={product}
@@ -97,26 +106,23 @@ const ProductForm = ({ onSave, getProduct }) => {
                 >
                     {({ isSubmitting, setFieldValue, values }) => (
                         <Form>
-                            <div className="field mb-4">
-                                <label htmlFor="name" className="font-medium text-900">Nombre</label>
-                                <span className="p-input-icon-left w-full">
-                                    <i className="pi pi-tag" />
-                                    <Field
-                                        as={InputText}
-                                        id="name"
-                                        name="name"
-                                        placeholder="Nombre del producto"
-                                        className="p-inputtext-lg"
-                                    />
-                                </span>
-                                <ErrorMessage name="name" component="small" className="p-error block mt-1" />
-                            </div>
-
                             <div className="grid">
-                                <div className="col-12 md:col-6 field mb-4">
-                                    <label htmlFor="price" className="font-medium text-900">Precio</label>
+                                <div className="field mb-4" style={{ marginBottom: '1rem' }}>
+                                    <label htmlFor="name" className="font-medium text-900"><i className="pi pi-tag" style={{ marginRight: '0.5rem' }} />Nombre</label>
                                     <span className="p-input-icon-left w-full">
-                                        <i className="pi pi-dollar" />
+                                        <Field
+                                            as={InputText}
+                                            id="name"
+                                            name="name"
+                                            placeholder="Nombre del producto"
+                                            className="p-inputtext-lg"
+                                        />
+                                    </span>
+                                    <ErrorMessage name="name" component="small" className="p-error block mt-1" />
+                                </div>
+                                <div className="col-12 md:col-6 field mb-4" style={{ marginBottom: '1rem' }}>
+                                    <label htmlFor="price" className="font-medium text-900"><i className="pi pi-dollar" style={{ marginRight: '0.5rem' }} />Precio</label>
+                                    <span className="p-input-icon-left w-full">
                                         <InputNumber
                                             id="price"
                                             name="price"
@@ -131,11 +137,9 @@ const ProductForm = ({ onSave, getProduct }) => {
                                     </span>
                                     <ErrorMessage name="price" component="small" className="p-error block mt-1" />
                                 </div>
-
-                                <div className="col-12 md:col-6 field mb-4">
-                                    <label htmlFor="stock" className="font-medium text-900">Stock</label>
+                                <div className="col-12 md:col-6 field mb-4" style={{ marginBottom: '1rem' }}>
+                                    <label htmlFor="stock" className="font-medium text-900"><i className="pi pi-inbox" style={{ marginRight: '0.5rem' }} />Stock</label>
                                     <span className="p-input-icon-left w-full">
-                                        <i className="pi pi-inbox" />
                                         <InputNumber
                                             id="stock"
                                             name="stock"
@@ -148,35 +152,53 @@ const ProductForm = ({ onSave, getProduct }) => {
                                     </span>
                                     <ErrorMessage name="stock" component="small" className="p-error block mt-1" />
                                 </div>
-                            </div>
-
-                            <div className="field mb-4">
-                                <label htmlFor="category" className="font-medium text-900">Categoría</label>
-                                <Dropdown
-                                    id="category"
-                                    name="category"
-                                    options={categories}
-                                    value={values.category}
-                                    onChange={(e) => setFieldValue('category', e.value)}
-                                    placeholder="Selecciona una categoría"
-                                    className="p-inputtext-lg"
-                                />
-                                <ErrorMessage name="category" component="small" className="p-error block mt-1" />
-                            </div>
-
-                            <Divider />
-
-                            <div className="flex justify-content-end gap-2 pt-2">
+                                <div className="field mb-4" style={{ marginBottom: '1rem' }}>
+                                    <label htmlFor="category" className="font-medium text-900">Categoría</label>
+                                    <Dropdown
+                                        id="category"
+                                        name="category"
+                                        options={categories}
+                                        value={values.category}
+                                        onChange={(e) => setFieldValue('category', e.value)}
+                                        placeholder="Selecciona una categoría"
+                                        className="p-inputtext-lg"
+                                        style={{ backgroundColor: '#ffffff' }}
+                                        panelStyle={{ 
+                                            backgroundColor: '#ffffff',
+                                            borderRadius: '8px',
+                                            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)'
+                                        }}
+                                        itemTemplate={(option) => {
+                                            const categoryColors = {
+                                                'pociones': 'success',
+                                                'armas': 'danger',
+                                                'accesorios': 'warning',
+                                                'contenedores': 'info',
+                                                'vestimenta': 'primary'
+                                            };
+                                            
+                                            return (
+                                                <div className="flex align-items-center">
+                                                    <span className={`mr-2 border-circle inline-block`} 
+                                                        style={{ 
+                                                            width: '0.75rem', 
+                                                            height: '0.75rem', 
+                                                            backgroundColor: `var(--${categoryColors[option.value]}-color)` 
+                                                        }}>
+                                                    </span>
+                                                    {option.label}
+                                                </div>
+                                            );
+                                        }}
+                                    />
+                                    <ErrorMessage name="category" component="small" className="p-error block mt-1" />
+                                </div>
+                                <Divider />
                                 <Button
                                     label="Cancelar"
                                     icon="pi pi-times"
                                     className="p-button-secondary"
                                     onClick={() => navigate('/products')}
-                                    type="button"
-                                    style={{
-                                        borderRadius: '8px',
-                                        transition: 'all 0.2s ease',
-                                    }}
                                 />
                                 <Button
                                     type="submit"
@@ -184,11 +206,6 @@ const ProductForm = ({ onSave, getProduct }) => {
                                     icon="pi pi-check"
                                     className="p-button-primary"
                                     loading={isSubmitting}
-                                    style={{
-                                        borderRadius: '8px',
-                                        boxShadow: '0 1px 3px rgba(99, 102, 241, 0.3)',
-                                        transition: 'all 0.2s ease',
-                                    }}
                                 />
                             </div>
                         </Form>

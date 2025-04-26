@@ -5,31 +5,45 @@ const PRODUCTS_STORAGE_KEY = 'app_products_data';
 const initialProducts = [
     {
         id: '1',
-        name: 'Smartphone XYZ',
-        price: 599.99,
-        category: 'electronics',
-        stock: 35
+        name: 'Poción de Curación',
+        price: 50.00,
+        category: 'pociones',
+        stock: 25
     },
     {
         id: '2',
-        name: 'Laptop Pro',
-        price: 1299.99,
-        category: 'electronics',
-        stock: 12
+        name: 'Espada Vorpal',
+        price: 8000.00,
+        category: 'armas',
+        stock: 1
     },
     {
         id: '3',
-        name: 'Coffee Maker',
-        price: 89.99,
-        category: 'home',
-        stock: 20
+        name: 'Anillo de Invisibilidad',
+        price: 5000.00,
+        category: 'accesorios',
+        stock: 3
     },
     {
         id: '4',
-        name: 'Denim Jeans',
-        price: 49.99,
-        category: 'clothing',
-        stock: 50
+        name: 'Bolsa de Contención',
+        price: 499.99,
+        category: 'contenedores',
+        stock: 7
+    },
+    {
+        id: '5',
+        name: 'Bastón del Mago',
+        price: 10000.00,
+        category: 'armas',
+        stock: 2
+    },
+    {
+        id: '6',
+        name: 'Capa Élfica',
+        price: 750.00,
+        category: 'vestimenta',
+        stock: 5
     }
 ];
 
